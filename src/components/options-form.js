@@ -1,60 +1,60 @@
-import React from 'react';
-import uuid from 'uuid/v4';
-import { pluralize } from '../helpers.js';
+import React from 'react'
+import uuid from 'uuid/v4'
+import { pluralize } from '../helpers.js'
 
 class OptionsForm extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       amount: 0,
       color: this.props.product.colors[0],
       size: this.props.product.sizes[0],
       price: 0,
-      error: ''
-    };
+      error: '',
+    }
 
-    this.handleAmountChange = this.handleAmountChange.bind(this);
-    this.handleSelectChange = this.handleSelectChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleAmountChange = this.handleAmountChange.bind(this)
+    this.handleSelectChange = this.handleSelectChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
   }
 
   handleAmountChange(event) {
-    const value = event.target.value;
-    const amount = parseInt(value, 10);
-    let error = '';
-    
+    const value = event.target.value
+    const amount = parseInt(value, 10)
+    let error = ''
+
     if (isNaN(amount)) {
-      error = 'Amount can\'t be blank!';
+      error = "Amount can't be blank!"
     }
 
     this.setState({
       amount,
       price: amount * this.props.product.price,
-      error
-    });
+      error,
+    })
   }
 
   handleSelectChange(event) {
-    const value = event.target.value;
-    const name = event.target.name;
+    const value = event.target.value
+    const name = event.target.name
 
     if (name === 'color') {
-      this.props.onColorChange(value);
+      this.props.onColorChange(value)
     }
 
     this.setState({
-      [name]: value
-    });
+      [name]: value,
+    })
   }
 
   handleSubmit(event) {
-    event.preventDefault();
+    event.preventDefault()
 
     if (isNaN(this.state.amount)) {
       return this.setState({
-        error: 'Amount still can\'t be blank!'
-      });
+        error: "Amount still can't be blank!",
+      })
     }
 
     const product = {
@@ -64,10 +64,10 @@ class OptionsForm extends React.Component {
       amount: this.state.amount,
       price: this.state.price,
       color: this.state.color,
-      size: this.state.size
-    };
+      size: this.state.size,
+    }
 
-    this.props.onFormSubmit(product);
+    this.props.onFormSubmit(product)
 
     // Reset form values
     this.setState({
@@ -75,18 +75,26 @@ class OptionsForm extends React.Component {
       color: this.props.product.colors[0],
       size: this.props.product.sizes[0],
       price: 0,
-      error: ''
-    });
+      error: '',
+    })
   }
 
   render() {
     const colors = this.props.product.colors.map(color => {
-      return <option key={color} value={color}>{color}</option>;
-    });
+      return (
+        <option key={color} value={color}>
+          {color}
+        </option>
+      )
+    })
 
     const sizes = this.props.product.sizes.map(size => {
-      return <option key={size} value={size}>{size}</option>;
-    });
+      return (
+        <option key={size} value={size}>
+          {size}
+        </option>
+      )
+    })
 
     return (
       <form onSubmit={this.handleSubmit}>
@@ -94,7 +102,7 @@ class OptionsForm extends React.Component {
           <p className="error">{this.state.error}</p>
           <label>
             <span className="label">Amount:</span>
-            <input 
+            <input
               type="number"
               name="amount"
               min="0"
@@ -128,12 +136,15 @@ class OptionsForm extends React.Component {
           </label>
         </div>
         <button type="submit" name="submit">
-          {`Add ${isNaN(this.state.amount) ? '__' : this.state.amount} ${this.state.size}, ${this.state.color} unicorn${pluralize(this.state.amount)} for $${isNaN(this.state.price) ? '__' : this.state.price} to your cart?`}
+          {`Add ${isNaN(this.state.amount) ? '__' : this.state.amount} ${
+            this.state.size
+          }, ${this.state.color} unicorn${pluralize(this.state.amount)} for $${
+            isNaN(this.state.price) ? '__' : this.state.price
+          } to your cart?`}
         </button>
-
       </form>
-    );
+    )
   }
 }
 
-export default OptionsForm;
+export default OptionsForm

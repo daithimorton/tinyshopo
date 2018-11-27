@@ -1,28 +1,30 @@
-import React from 'react';
-import OptionsForm from './options-form';
+import React from 'react'
+import OptionsForm from './options-form'
 
 class OptionsFormContainer extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
-    const images = props.product.images;
-    const defaultImage = images.find(image => image.file.url.includes('black'));
+    const images = props.product.images
+    const defaultImage = images.find(image => image.file.url.includes('black'))
 
     this.state = {
       url: defaultImage.file.url,
-      alt: defaultImage.description
-    };
+      alt: defaultImage.description,
+    }
 
-    this.updateImage = this.updateImage.bind(this);
+    this.updateImage = this.updateImage.bind(this)
   }
 
   updateImage(color) {
-    const newImage = this.props.product.images.find(image => image.file.url.includes(color));
+    const newImage = this.props.product.images.find(image =>
+      image.file.url.includes(color)
+    )
 
     this.setState({
       url: newImage.file.url,
-      alt: newImage.description
-    });
+      alt: newImage.description,
+    })
   }
 
   render() {
@@ -35,10 +37,12 @@ class OptionsFormContainer extends React.Component {
             onColorChange={this.updateImage}
           />
         </div>
-        <div className="image-container"><img src={this.state.url} alt={this.state.alt} /></div>
+        <div className="image-container">
+          <img src={this.state.url} alt={this.state.alt} />
+        </div>
       </div>
     )
   }
 }
 
-export default OptionsFormContainer;
+export default OptionsFormContainer

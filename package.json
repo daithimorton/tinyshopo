@@ -26,7 +26,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/njosefbeck/unicorn-mart.git"
+    "url": "git@github.com:damorton/tinyshopo.git"
   },
   "license": "MIT",
   "main": "n/a",
