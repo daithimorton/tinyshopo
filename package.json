@@ -1,0 +1,42 @@
+{
+  "name": "tiny-shoopo",
+  "description": "Tiny Shopo",
+  "version": "1.0.0",
+  "author": "Daithi @Beautifwhale",
+  "dependencies": {
+    "dotenv": "6.0.0",
+    "gatsby": "next",
+    "gatsby-plugin-google-analytics": "next",
+    "gatsby-plugin-react-helmet": "next",
+    "gatsby-plugin-stripe-checkout": "1.0.5",
+    "gatsby-source-contentful": "next",
+    "moment": "2.22.2",
+    "react": "16.4.2",
+    "react-dom": "16.4.2",
+    "react-helmet": "5.2.0",
+    "uuid": "3.3.2"
+  },
+  "keywords": [
+    "gatsby",
+    "gatsbyjs",
+    "gatsbyjs-plugin",
+    "clay.run",
+    "stripe",
+    "contentful"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/njosefbeck/unicorn-mart.git"
+  },
+  "license": "MIT",
+  "main": "n/a",
+  "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop",
+    "format": "prettier --trailing-comma es5 --no-semi --single-quote --write 'src/**/*.js'",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "prettier": "1.14.2"
+  }
+}
