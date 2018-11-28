@@ -5,6 +5,7 @@ module.exports = {
     title: `Tiny Shopo`,
   },
   plugins: [
+    `gatsby-plugin-favicon`,
     `gatsby-plugin-react-helmet`,
     {
       resolve: `gatsby-plugin-google-analytics`,
