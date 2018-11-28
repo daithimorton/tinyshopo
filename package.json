@@ -15,6 +15,7 @@
     "react": "16.4.2",
     "react-dom": "16.4.2",
     "react-helmet": "5.2.0",
+    "stripe": "^6.17.0",
     "uuid": "3.3.2"
   },
   "keywords": [
@@ -32,12 +33,17 @@
   "license": "MIT",
   "main": "n/a",
   "scripts": {
-    "build": "gatsby build",
+    "build": "gatsby build && npm run lambda:build",
     "develop": "gatsby develop",
     "format": "prettier --trailing-comma es5 --no-semi --single-quote --write 'src/**/*.js'",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "concurrently --kill-others \"npm run develop\" \"npm run lambda:serve\"",
+    "lambda:build": "netlify-lambda build src/lambda",
+    "lambda:serve": "netlify-lambda serve src/lambda"
   },
   "devDependencies": {
+    "concurrently": "^4.1.0",
+    "netlify-lambda": "^1.0.3",
     "prettier": "1.14.2"
   }
 }
