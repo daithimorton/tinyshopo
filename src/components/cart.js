@@ -126,26 +126,34 @@ class Cart extends React.Component {
     } else {
       return (
         <div>
-          <h3
-            className="status"
-            dangerouslySetInnerHTML={this.renderStatus()}
-          />
           <button
             className="buy"
             name="buy"
             onClick={e => this.openStripeCheckout(e)}
             disabled={this.state.processing}
           >
-            {this.state.processing ? ' Processing...' : 'Buy Now!'}
+            Buy Now!
           </button>
           <button
             className="clear-cart"
             name="clear-cart"
             onClick={this.props.removeAllFromCart}
+            disabled={this.state.processing}
           >
             Clear All
           </button>
-          <ul className="cart-items">{this.renderCartItems()}</ul>
+
+          {this.state.processing ? (
+            <h3 className="status">Please wait processing payment...</h3>
+          ) : (
+            <React.Fragment>
+              <h3
+                className="status"
+                dangerouslySetInnerHTML={this.renderStatus()}
+              />
+              <ul className="cart-items">{this.renderCartItems()}</ul>
+            </React.Fragment>
+          )}
         </div>
       );
     }

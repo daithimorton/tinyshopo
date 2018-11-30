@@ -21,7 +21,7 @@ class OptionsFormContainer extends React.Component {
   render() {
     return (
       <div className="product">
-        <span className="label">{this.props.product.name}</span>
+        <span className="product-name-label">{this.props.product.name}</span>
         <div className="image-container">
           <img src={this.state.url} alt={this.state.alt} />
         </div>
