@@ -13,7 +13,8 @@ class Cart extends React.Component {
     super(props);
 
     this.state = {
-      processing: false
+      processing: false,
+      purchaseComplete: false
     };
 
     this.renderStatus = this.renderStatus.bind(this);
@@ -62,7 +63,7 @@ class Cart extends React.Component {
             return response.json();
           })
           .then(json => {
-            this.setState({ processing: false });
+            this.setState({ processing: false, purchaseComplete: true });
             this.props.removeAllFromCart();
             return console.log(json);
           })
@@ -82,9 +83,12 @@ class Cart extends React.Component {
       const totals = calculateProductTotals(cartItems);
       status = `It looks like you're buying <strong>${
         totals.quantity
-      }</strong> for a grand total of <strong>€${
-        totals.price
-      }</strong>. Sweet!`;
+      }</strong> for a total of <strong>€${totals.price}</strong>. Sweet!`;
+    }
+
+    // thank the user when purchase complete
+    if (this.state.purchaseComplete && this.props.cart.items.length === 0) {
+      status = 'Purchase complete. Thank you!';
     }
 
     return { __html: status };
@@ -132,7 +136,7 @@ class Cart extends React.Component {
             onClick={e => this.openStripeCheckout(e)}
             disabled={this.state.processing}
           >
-            Buy Now!
+            {this.state.processing ? ' Processing...' : 'Buy Now!'}
           </button>
           <button
             className="clear-cart"

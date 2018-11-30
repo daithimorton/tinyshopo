@@ -6,8 +6,8 @@ class OptionsForm extends React.Component {
     super(props);
 
     this.state = {
-      quantity: 0,
-      price: 0,
+      quantity: 1,
+      price: this.props.product.metadata.price,
       error: ''
     };
 
@@ -27,7 +27,6 @@ class OptionsForm extends React.Component {
 
     this.setState({
       quantity,
-      // price: quantity * this.props.product.price,
       price: quantity * this.props.product.metadata.price,
       error
     });

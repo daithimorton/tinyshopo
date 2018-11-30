@@ -13,7 +13,7 @@ export function calculateProductTotals(items) {
 
   const totalPrice = items
     .map(item => item.price)
-    .reduce((total, currentPrice) => total + currentPrice);
+    .reduce((total, currentPrice) => Number(total) + Number(currentPrice));
 
   return {
     quantity: totalAmount,
