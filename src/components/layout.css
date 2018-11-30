@@ -484,15 +484,20 @@ body {
 
 header {
   background-color: #fff;
-  border-top-left-radius: 3px;
-  border-top-right-radius: 3px;
-  padding: 20px 20px 10px;
+  /* border-top-left-radius: 3px;
+  border-top-right-radius: 3px; */
+  border-radius: 3px;
+  padding: 20px 20px 20px 20px;
 }
 
 footer {
   text-align: center;
   font-weight: 700;
-  font-size: 12px;
+  font-size: 20px;
+}
+
+footer > a {
+  margin: 0 20px 0 20px;
 }
 
 a {
@@ -506,11 +511,18 @@ a:hover {
 }
 
 .site-title {
-  margin: 0;
+  margin: 0 0 5px 0;
   padding: 0;
   font-weight: 900;
   text-align: center;
   text-transform: uppercase;
+}
+
+.site-subtitle {
+  margin: 0;
+  padding: 0;
+  font-weight: 600;
+  text-align: center;
 }
 
 img {

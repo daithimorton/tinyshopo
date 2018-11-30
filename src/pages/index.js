@@ -13,6 +13,7 @@ class IndexPage extends React.Component {
 
     this.state = {
       products: props.data.allContentfulProduct.edges,
+      stripeProducts: props.data.allStripeProduct.edges,
       cart: {
         id: '',
         date: '',
@@ -66,14 +67,24 @@ class IndexPage extends React.Component {
   render() {
     return (
       <Layout>
-        <p className="intro">
-          Welcome to Tiny Shopo for all your hobby electronic needs!
-        </p>
+        <h4 className="intro">
+          Free shipping worldwide! Please allow up to 30 days for delivery,
+          Thank you.
+        </h4>
 
         <section>
           <h2>Products</h2>
           <div className="product-container">
-            {this.state.products.map((product, index) => {
+            {/* {this.state.products.map((product, index) => {
+              return (
+                <OptionsFormContainer
+                  key={index}
+                  product={product.node}
+                  onFormSubmit={this.handleFormSubmit}
+                />
+              );
+            })} */}
+            {this.state.stripeProducts.map((product, index) => {
               return (
                 <OptionsFormContainer
                   key={index}
@@ -112,6 +123,18 @@ export const query = graphql`
             file {
               url
             }
+          }
+        }
+      }
+    }
+    allStripeProduct {
+      edges {
+        node {
+          id
+          name
+          images
+          metadata {
+            price
           }
         }
       }

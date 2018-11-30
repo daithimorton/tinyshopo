@@ -12,18 +12,18 @@
 
 .intro {
   background-color: #fff;
-  margin-top: 0;
-  margin-bottom: 0;
-  padding: 10px 20px 20px;
+  margin: 5px 0 5px 0;
+  padding: 10px 10px 10px 10px;
   font-weight: 700;
   text-align: center;
-  border-bottom-left-radius: 3px;
-  border-bottom-right-radius: 3px;
+  /* border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px; */
+  border-radius: 3px;
 }
 
 section {
   background-color: #fff;
-  margin-top: 10px;
+  /* margin-top: 10px; */
   margin-bottom: 10px;
   padding: 20px;
   border-radius: 3px;
@@ -36,9 +36,9 @@ section h2 {
 }
 
 .image-container {
-  padding: 20px;
-  border: 4px solid #000;
-  border-radius: 4px;
+  padding: 5px;
+  /* border: 4px solid #000;
+  border-radius: 4px; */
 }
 
 /* .form-element {
@@ -110,9 +110,22 @@ button[type='submit']:disabled {
   color: lightgray;
 }
 
+/* overwrite the strong styling for disable buttons */
+button[type='submit']:disabled strong {
+  color: lightgray;
+}
+
 .label {
   text-transform: uppercase;
   font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.price-label {
+  text-transform: uppercase;
+  font-size: 20px;
   font-weight: 700;
   margin-bottom: 5px;
   display: block;
@@ -143,11 +156,24 @@ button[type='submit']:disabled {
   position: relative;
 }
 
+.status {
+  text-align: center;
+}
+
 .cart .status {
   font-weight: 700;
 }
 
 .cart .status strong {
+  color: #ff0080;
+}
+
+.buy-button strong {
+  color: #ff0080;
+}
+
+.price,
+.description strong {
   color: #ff0080;
 }
 
@@ -177,10 +203,6 @@ button[type='submit']:disabled {
     right: 20px;
     top: 0;
   }
-
-  .status {
-    padding-right: 150px;
-  }
 }
 
 .cart-items {
@@ -199,7 +221,7 @@ button[type='submit']:disabled {
   margin-left: 10px;
   margin-right: 10px;
   margin-bottom: 15px;
-  padding: 15px;
+  padding: 25px 15px 15px 15px;
   border: 4px solid #000;
   border-radius: 4px;
 }

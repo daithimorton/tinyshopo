@@ -34,11 +34,12 @@ class Cart extends React.Component {
     stripeHandler.open({
       name: 'Tiny Shopo',
       image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
-      description: `${totals.quantity} unicorn${pluralize(totals.quantity)}`,
+      description: `${totals.quantity} item${pluralize(totals.quantity)}`,
       zipCode: true,
       billingAddress: true,
       shippingAddress: true,
       amount: convertWholeDollarsToCents(totals.price),
+      currency: 'eur',
       token: (token, args) => {
         fetch('/.netlify/functions/charge', {
           method: 'POST',
@@ -47,7 +48,7 @@ class Cart extends React.Component {
             args,
             cart: this.props.cart,
             charge: {
-              quantity: totals.price,
+              amount: totals.price,
               currency: 'EUR'
             }
           })
@@ -94,9 +95,14 @@ class Cart extends React.Component {
           <div className="cancel" onClick={e => this.removeFromCart(item.id)}>
             remove
           </div>
-          <img src={image.file.url} alt={image.description} />
-          <p className="description">{item.quantity} unicorns</p>
-          <p className="price">€{item.price}</p>
+          {/* <img src={image.file.url} alt={image.description} /> */}
+          <img src={image} alt={image.description} />
+          <p className="description">
+            <strong>{item.quantity}</strong> x {item.name}
+          </p>
+          <p className="price">
+            <strong>€{item.price}</strong>
+          </p>
         </li>
       );
     });
@@ -105,12 +111,15 @@ class Cart extends React.Component {
   render() {
     if (!this.props.cart.items.length) {
       return (
-        <p className="status" dangerouslySetInnerHTML={this.renderStatus()} />
+        <h3 className="status" dangerouslySetInnerHTML={this.renderStatus()} />
       );
     } else {
       return (
         <div>
-          <p className="status" dangerouslySetInnerHTML={this.renderStatus()} />
+          <h3
+            className="status"
+            dangerouslySetInnerHTML={this.renderStatus()}
+          />
           <button
             className="buy"
             name="buy"

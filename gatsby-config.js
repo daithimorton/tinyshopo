@@ -1,4 +1,6 @@
 require('dotenv').config();
+require('dotenv').config({ path: '.env.backend' });
+
 var proxy = require('http-proxy-middleware');
 
 module.exports = {
@@ -25,6 +27,13 @@ module.exports = {
     {
       resolve: `gatsby-plugin-stripe-checkout`,
       options: {}
+    },
+    {
+      resolve: `gatsby-source-stripe`,
+      options: {
+        objects: ['Product'],
+        secretKey: process.env.STRIPE_SECRET_KEY
+      }
     }
   ],
   // added to gatsby dev server to allow testing of Netlify lambda functions

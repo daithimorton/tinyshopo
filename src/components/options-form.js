@@ -1,6 +1,5 @@
 import React from 'react';
 import uuid from 'uuid/v4';
-import { pluralize } from '../helpers.js';
 
 class OptionsForm extends React.Component {
   constructor(props) {
@@ -28,7 +27,8 @@ class OptionsForm extends React.Component {
 
     this.setState({
       quantity,
-      price: quantity * this.props.product.price,
+      // price: quantity * this.props.product.price,
+      price: quantity * this.props.product.metadata.price,
       error
     });
   }
@@ -53,11 +53,14 @@ class OptionsForm extends React.Component {
 
     const product = {
       id: uuid(),
-      contentfulId: this.props.product.id,
-      productId: this.props.product.productId,
+      // contentfulId: this.props.product.id,
+      // productId: this.props.product.productId,
+      productId: this.props.product.id,
+      name: this.props.product.name,
       quantity: this.state.quantity,
       price: this.state.price,
-      image: this.props.product.image
+      // image: this.props.product.image
+      image: this.props.product.images[0]
     };
 
     this.props.onFormSubmit(product);
@@ -87,16 +90,18 @@ class OptionsForm extends React.Component {
           </label>
         </div>
         <button
+          className="buy-button"
           type="submit"
           name="submit"
           disabled={this.state.quantity === 0 ? true : false}
-        >
-          {`Add ${
-            isNaN(this.state.quantity) ? '__' : this.state.quantity
-          }, unicorn${pluralize(this.state.quantity)} for €${
-            isNaN(this.state.price) ? '__' : this.state.price
-          } to your cart?`}
-        </button>
+          dangerouslySetInnerHTML={{
+            __html: `Add <strong>${
+              isNaN(this.state.quantity) ? '__' : this.state.quantity
+            }</strong> for <strong>€${
+              isNaN(this.state.price) ? '__' : this.state.price
+            }</strong> to your cart?`
+          }}
+        />
       </form>
     );
   }

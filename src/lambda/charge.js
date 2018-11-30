@@ -3,9 +3,12 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 exports.handler = (event, context, callback) => {
   const requestBody = JSON.parse(event.body);
+  const { token, charge } = requestBody;
+  const { email } = token;
+  console.log(charge);
   stripe.customers
     .create({
-      email: 'test@example.com'
+      email
     })
     .then(customer => {
       return stripe.customers.createSource(customer.id, {
