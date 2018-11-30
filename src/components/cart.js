@@ -12,6 +12,10 @@ class Cart extends React.Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      processing: false
+    };
+
     this.renderStatus = this.renderStatus.bind(this);
     this.renderCartItems = this.renderCartItems.bind(this);
     this.removeFromCart = this.removeFromCart.bind(this);
@@ -41,6 +45,7 @@ class Cart extends React.Component {
       amount: convertWholeDollarsToCents(totals.price),
       currency: 'eur',
       token: (token, args) => {
+        this.setState({ processing: true });
         fetch('/.netlify/functions/charge', {
           method: 'POST',
           body: JSON.stringify({
@@ -57,10 +62,12 @@ class Cart extends React.Component {
             return response.json();
           })
           .then(json => {
+            this.setState({ processing: false });
             this.props.removeAllFromCart();
             return console.log(json);
           })
           .catch(error => {
+            this.setState({ processing: false });
             console.log('Fetch failed:' + error);
           });
       }
@@ -95,7 +102,6 @@ class Cart extends React.Component {
           <div className="cancel" onClick={e => this.removeFromCart(item.id)}>
             remove
           </div>
-          {/* <img src={image.file.url} alt={image.description} /> */}
           <img src={image} alt={image.description} />
           <p className="description">
             <strong>{item.quantity}</strong> x {item.name}
@@ -124,6 +130,7 @@ class Cart extends React.Component {
             className="buy"
             name="buy"
             onClick={e => this.openStripeCheckout(e)}
+            disabled={this.state.processing}
           >
             Buy Now!
           </button>

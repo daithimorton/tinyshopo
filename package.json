@@ -10,7 +10,6 @@
     "gatsby-plugin-google-analytics": "next",
     "gatsby-plugin-react-helmet": "next",
     "gatsby-plugin-stripe-checkout": "1.0.9",
-    "gatsby-source-contentful": "next",
     "gatsby-source-stripe": "2.0.5",
     "moment": "2.22.2",
     "react": "16.4.2",

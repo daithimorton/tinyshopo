@@ -12,7 +12,6 @@ class IndexPage extends React.Component {
     super(props);
 
     this.state = {
-      products: props.data.allContentfulProduct.edges,
       stripeProducts: props.data.allStripeProduct.edges,
       cart: {
         id: '',
@@ -75,15 +74,6 @@ class IndexPage extends React.Component {
         <section>
           <h2>Products</h2>
           <div className="product-container">
-            {/* {this.state.products.map((product, index) => {
-              return (
-                <OptionsFormContainer
-                  key={index}
-                  product={product.node}
-                  onFormSubmit={this.handleFormSubmit}
-                />
-              );
-            })} */}
             {this.state.stripeProducts.map((product, index) => {
               return (
                 <OptionsFormContainer
@@ -112,21 +102,6 @@ class IndexPage extends React.Component {
 
 export const query = graphql`
   {
-    allContentfulProduct {
-      edges {
-        node {
-          id
-          productId
-          name
-          price
-          image {
-            file {
-              url
-            }
-          }
-        }
-      }
-    }
     allStripeProduct {
       edges {
         node {
