@@ -1,4 +1,4 @@
-require('dotenv').config({ path: '.env.backend' });
+require('dotenv').config({ path: '.env' });
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 exports.handler = (event, context, callback) => {

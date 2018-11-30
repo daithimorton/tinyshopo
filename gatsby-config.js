@@ -1,5 +1,4 @@
 require('dotenv').config();
-require('dotenv').config({ path: '.env.backend' });
 
 var proxy = require('http-proxy-middleware');
 
@@ -16,13 +15,6 @@ module.exports = {
       options: {
         trackingId: 'UA-63312977-14',
         anonymize: true
-      }
-    },
-    {
-      resolve: `gatsby-source-contentful`,
-      options: {
-        spaceId: process.env.CONTENTFUL_SPACE_ID,
-        accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
       }
     },
     {
