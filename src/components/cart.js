@@ -38,7 +38,7 @@ class Cart extends React.Component {
       zipCode: true,
       billingAddress: true,
       shippingAddress: true,
-      quantity: convertWholeDollarsToCents(totals.price),
+      amount: convertWholeDollarsToCents(totals.price),
       token: (token, args) => {
         fetch('/.netlify/functions/charge', {
           method: 'POST',
