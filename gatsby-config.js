@@ -10,6 +10,7 @@ module.exports = {
   plugins: [
     `gatsby-plugin-favicon`,
     `gatsby-plugin-react-helmet`,
+    `gatsby-plugin-stripe-checkout`,
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
@@ -23,10 +24,6 @@ module.exports = {
         spaceId: process.env.CONTENTFUL_SPACE_ID,
         accessToken: process.env.CONTENTFUL_ACCESS_TOKEN
       }
-    },
-    {
-      resolve: `gatsby-plugin-stripe-checkout`,
-      options: {}
     },
     {
       resolve: `gatsby-source-stripe`,

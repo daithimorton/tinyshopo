@@ -49,7 +49,7 @@ class Cart extends React.Component {
             cart: this.props.cart,
             charge: {
               amount: totals.price,
-              currency: 'EUR'
+              currency: 'eur'
             }
           })
         })
