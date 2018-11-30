@@ -14,7 +14,8 @@ class Cart extends React.Component {
 
     this.state = {
       processing: false,
-      purchaseComplete: false
+      purchaseComplete: false,
+      paymentError: false
     };
 
     this.renderStatus = this.renderStatus.bind(this);
@@ -33,6 +34,7 @@ class Cart extends React.Component {
   openStripeCheckout(event) {
     event.preventDefault();
 
+    this.setState({ paymentError: false });
     const cartItems = this.props.cart.items;
     const totals = calculateProductTotals(cartItems);
 
@@ -60,15 +62,29 @@ class Cart extends React.Component {
           })
         })
           .then(response => {
+            const { status } = response;
+            if (status === 200) {
+              this.setState({
+                processing: false,
+                purchaseComplete: true,
+                paymentError: false
+              });
+              this.props.removeAllFromCart();
+            } else if (status === 500) {
+              this.setState({
+                processing: false,
+                purchaseComplete: false,
+                paymentError: true
+              });
+            }
             return response.json();
           })
-          .then(json => {
-            this.setState({ processing: false, purchaseComplete: true });
-            this.props.removeAllFromCart();
-            return console.log(json);
-          })
           .catch(error => {
-            this.setState({ processing: false });
+            this.setState({
+              processing: false,
+              purchaseComplete: false,
+              paymentError: true
+            });
             console.log('Fetch failed:' + error);
           });
       }
@@ -119,44 +135,44 @@ class Cart extends React.Component {
   }
 
   render() {
-    if (!this.props.cart.items.length) {
-      return (
-        <h3 className="status" dangerouslySetInnerHTML={this.renderStatus()} />
-      );
-    } else {
-      return (
-        <div>
-          <button
-            className="buy"
-            name="buy"
-            onClick={e => this.openStripeCheckout(e)}
-            disabled={this.state.processing}
-          >
-            Buy Now!
-          </button>
-          <button
-            className="clear-cart"
-            name="clear-cart"
-            onClick={this.props.removeAllFromCart}
-            disabled={this.state.processing}
-          >
-            Clear All
-          </button>
-
-          {this.state.processing ? (
-            <h3 className="status">Please wait processing payment...</h3>
-          ) : (
-            <React.Fragment>
-              <h3
-                className="status"
-                dangerouslySetInnerHTML={this.renderStatus()}
-              />
-              <ul className="cart-items">{this.renderCartItems()}</ul>
-            </React.Fragment>
-          )}
-        </div>
-      );
-    }
+    return (
+      <div>
+        <button
+          className="buy"
+          name="buy"
+          onClick={e => this.openStripeCheckout(e)}
+          disabled={this.state.processing || this.props.cart.items.length === 0}
+        >
+          Buy Now!
+        </button>
+        <button
+          className="clear-cart"
+          name="clear-cart"
+          onClick={this.props.removeAllFromCart}
+          disabled={this.state.processing}
+        >
+          Clear All
+        </button>
+        {this.state.paymentError && (
+          <h3 className="status">
+            <strong>
+              There was an error processing your payment, please try again.
+            </strong>
+          </h3>
+        )}
+        {this.state.processing ? (
+          <h3 className="status">Please wait processing payment...</h3>
+        ) : (
+          <React.Fragment>
+            <h3
+              className="status"
+              dangerouslySetInnerHTML={this.renderStatus()}
+            />
+            <ul className="cart-items">{this.renderCartItems()}</ul>
+          </React.Fragment>
+        )}
+      </div>
+    );
   }
 }
 
