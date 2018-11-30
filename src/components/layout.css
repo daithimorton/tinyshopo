@@ -501,7 +501,7 @@ footer > a {
 }
 
 a {
-  color: #ff0080;
+  color: black;
   transition: color 0.5s ease-in-out;
   text-decoration: none;
 }

@@ -32,7 +32,7 @@ const Layout = ({ children }) => (
         target="_blank"
         rel="noopener noreferrer"
       >
-        @Beautifwhale
+        Contact
       </a>
     </footer>
   </div>
