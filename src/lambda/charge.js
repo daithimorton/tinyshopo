@@ -3,7 +3,6 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 exports.handler = (event, context, callback) => {
   const requestBody = JSON.parse(event.body);
-  console.log('body', requestBody);
   stripe.customers
     .create({
       email: 'test@example.com'

@@ -39,7 +39,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "concurrently --kill-others \"npm run develop\" \"npm run lambda:serve\"",
     "lambda:build": "netlify-lambda build src/lambda",
-    "lambda:serve": "netlify-lambda serve src/lambda"
+    "lambda:serve": "netlify-lambda serve src/lambda",
+    "clean": "rm -rf .cache node_modules"
   },
   "devDependencies": {
     "concurrently": "^4.1.0",

@@ -1,150 +1,105 @@
-import React from 'react'
-import uuid from 'uuid/v4'
-import { pluralize } from '../helpers.js'
+import React from 'react';
+import uuid from 'uuid/v4';
+import { pluralize } from '../helpers.js';
 
 class OptionsForm extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
 
     this.state = {
-      amount: 0,
-      color: this.props.product.colors[0],
-      size: this.props.product.sizes[0],
+      quantity: 0,
       price: 0,
-      error: '',
-    }
+      error: ''
+    };
 
-    this.handleAmountChange = this.handleAmountChange.bind(this)
-    this.handleSelectChange = this.handleSelectChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleAmountChange = this.handleAmountChange.bind(this);
+    this.handleSelectChange = this.handleSelectChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleAmountChange(event) {
-    const value = event.target.value
-    const amount = parseInt(value, 10)
-    let error = ''
+    const value = event.target.value;
+    const quantity = parseInt(value, 10);
+    let error = '';
 
-    if (isNaN(amount)) {
-      error = "Amount can't be blank!"
+    if (isNaN(quantity)) {
+      error = "Quantity can't be blank!";
     }
 
     this.setState({
-      amount,
-      price: amount * this.props.product.price,
-      error,
-    })
+      quantity,
+      price: quantity * this.props.product.price,
+      error
+    });
   }
 
   handleSelectChange(event) {
-    const value = event.target.value
-    const name = event.target.name
-
-    if (name === 'color') {
-      this.props.onColorChange(value)
-    }
+    const value = event.target.value;
+    const name = event.target.name;
 
     this.setState({
-      [name]: value,
-    })
+      [name]: value
+    });
   }
 
   handleSubmit(event) {
-    event.preventDefault()
+    event.preventDefault();
 
-    if (isNaN(this.state.amount)) {
+    if (isNaN(this.state.quantity)) {
       return this.setState({
-        error: "Amount still can't be blank!",
-      })
+        error: "Quantity still can't be blank!"
+      });
     }
 
     const product = {
       id: uuid(),
       contentfulId: this.props.product.id,
       productId: this.props.product.productId,
-      amount: this.state.amount,
+      quantity: this.state.quantity,
       price: this.state.price,
-      color: this.state.color,
-      size: this.state.size,
-    }
+      image: this.props.product.image
+    };
 
-    this.props.onFormSubmit(product)
+    this.props.onFormSubmit(product);
 
     // Reset form values
     this.setState({
-      amount: 0,
-      color: this.props.product.colors[0],
-      size: this.props.product.sizes[0],
+      quantity: 0,
       price: 0,
-      error: '',
-    })
+      error: ''
+    });
   }
 
   render() {
-    const colors = this.props.product.colors.map(color => {
-      return (
-        <option key={color} value={color}>
-          {color}
-        </option>
-      )
-    })
-
-    const sizes = this.props.product.sizes.map(size => {
-      return (
-        <option key={size} value={size}>
-          {size}
-        </option>
-      )
-    })
-
     return (
       <form onSubmit={this.handleSubmit}>
+        <p className="error">{this.state.error}</p>
         <div className="form-element">
-          <p className="error">{this.state.error}</p>
           <label>
-            <span className="label">Amount:</span>
+            <span className="label">Quantity</span>
             <input
               type="number"
-              name="amount"
+              name="quantity"
               min="0"
-              value={isNaN(this.state.amount) ? '' : this.state.amount}
+              value={isNaN(this.state.quantity) ? '' : this.state.quantity}
               onChange={this.handleAmountChange}
             />
           </label>
         </div>
-        <div className="form-element">
-          <label>
-            <span className="label">Color:</span>
-            <select
-              value={this.state.color}
-              name="color"
-              onChange={this.handleSelectChange}
-            >
-              {colors}
-            </select>
-          </label>
-        </div>
-        <div className="form-element">
-          <label>
-            <span className="label">Size:</span>
-            <select
-              value={this.state.size}
-              name="size"
-              onChange={this.handleSelectChange}
-            >
-              {sizes}
-            </select>
-          </label>
-        </div>
-        <button type="submit" name="submit">
-          {`Add ${isNaN(this.state.amount) ? '__' : this.state.amount} ${
-            this.state.size
-          }, ${this.state.color} unicorn${pluralize(this.state.amount)} for $${
+        <button
+          type="submit"
+          name="submit"
+          disabled={this.state.quantity === 0 ? true : false}
+        >
+          {`Add ${
+            isNaN(this.state.quantity) ? '__' : this.state.quantity
+          }, unicorn${pluralize(this.state.quantity)} for €${
             isNaN(this.state.price) ? '__' : this.state.price
           } to your cart?`}
         </button>
       </form>
-    )
+    );
   }
 }
 
-export default OptionsForm
+export default OptionsForm;

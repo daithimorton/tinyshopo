@@ -28,21 +28,17 @@ class Cart extends React.Component {
   openStripeCheckout(event) {
     event.preventDefault();
 
-    const image = this.props.product.images.find(image =>
-      image.file.url.includes('black')
-    );
-    const imageUrl = image.file.url;
     const cartItems = this.props.cart.items;
     const totals = calculateProductTotals(cartItems);
 
     stripeHandler.open({
       name: 'Tiny Shopo',
-      image: imageUrl,
-      description: `${totals.amount} unicorn${pluralize(totals.amount)}`,
-      // zipCode: true,
-      // billingAddress: true,
-      // shippingAddress: true,
-      amount: convertWholeDollarsToCents(totals.price),
+      image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
+      description: `${totals.quantity} unicorn${pluralize(totals.quantity)}`,
+      zipCode: true,
+      billingAddress: true,
+      shippingAddress: true,
+      quantity: convertWholeDollarsToCents(totals.price),
       token: (token, args) => {
         fetch('/.netlify/functions/charge', {
           method: 'POST',
@@ -51,7 +47,7 @@ class Cart extends React.Component {
             args,
             cart: this.props.cart,
             charge: {
-              amount: totals.price,
+              quantity: totals.price,
               currency: 'EUR'
             }
           })
@@ -77,8 +73,8 @@ class Cart extends React.Component {
     if (cartItems.length) {
       const totals = calculateProductTotals(cartItems);
       status = `It looks like you're buying <strong>${
-        totals.amount
-      }</strong> for a grand total of <strong>$${
+        totals.quantity
+      }</strong> for a grand total of <strong>€${
         totals.price
       }</strong>. Sweet!`;
     }
@@ -92,20 +88,15 @@ class Cart extends React.Component {
 
   renderCartItems() {
     return this.props.cart.items.map(item => {
-      // Render proper image
-      const image = this.props.product.images.find(image =>
-        image.file.url.includes(item.color)
-      );
+      const image = item.image;
       return (
         <li className="cart-item" key={item.id}>
           <div className="cancel" onClick={e => this.removeFromCart(item.id)}>
             remove
           </div>
           <img src={image.file.url} alt={image.description} />
-          <p className="description">
-            {item.amount} {item.size}, {item.color} <br /> unicorns
-          </p>
-          <p className="price">${item.price}</p>
+          <p className="description">{item.quantity} unicorns</p>
+          <p className="price">€{item.price}</p>
         </li>
       );
     });

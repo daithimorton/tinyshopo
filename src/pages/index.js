@@ -12,7 +12,7 @@ class IndexPage extends React.Component {
     super(props);
 
     this.state = {
-      product: props.data.allContentfulProduct.edges[0].node,
+      products: props.data.allContentfulProduct.edges,
       cart: {
         id: '',
         date: '',
@@ -72,21 +72,24 @@ class IndexPage extends React.Component {
 
         <section>
           <h2>Products</h2>
-          <OptionsFormContainer
-            product={this.state.product}
-            onFormSubmit={this.handleFormSubmit}
-          />
-          <OptionsFormContainer
-            product={this.state.product}
-            onFormSubmit={this.handleFormSubmit}
-          />
+          <div className="product-container">
+            {this.state.products.map((product, index) => {
+              return (
+                <OptionsFormContainer
+                  key={index}
+                  product={product.node}
+                  onFormSubmit={this.handleFormSubmit}
+                />
+              );
+            })}
+          </div>
         </section>
 
         <section className="cart">
           <h2>Your Cart</h2>
           <Cart
             cart={this.state.cart}
-            product={this.state.product}
+            products={this.state.products}
             removeFromCart={this.removeFromCart}
             removeAllFromCart={this.removeAllFromCart}
           />
@@ -105,14 +108,11 @@ export const query = graphql`
           productId
           name
           price
-          images {
-            description
+          image {
             file {
               url
             }
           }
-          colors
-          sizes
         }
       }
     }

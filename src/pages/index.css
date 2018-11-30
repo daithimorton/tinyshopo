@@ -1,5 +1,17 @@
+.product-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.product {
+  text-align: center;
+  width: 300px;
+  margin: 10px;
+}
+
 .intro {
-  background-color: #FFF;
+  background-color: #fff;
   margin-top: 0;
   margin-bottom: 0;
   padding: 10px 20px 20px;
@@ -10,7 +22,7 @@
 }
 
 section {
-  background-color: #FFF;
+  background-color: #fff;
   margin-top: 10px;
   margin-bottom: 10px;
   padding: 20px;
@@ -25,19 +37,27 @@ section h2 {
 
 .image-container {
   padding: 20px;
+  border: 4px solid #000;
+  border-radius: 4px;
 }
 
-.form-element {
+/* .form-element {
   width: 33.333%;
+  display: inline-block;
+} */
+
+.form-element {
+  width: 32%;
   display: inline-block;
 }
 
-.form-element .error {
+.error {
   font-weight: 900;
   font-size: 14px;
-  color: #FF0080;
+  color: #ff0080;
   text-transform: uppercase;
-  margin-top: 0;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
 .form-element label {
@@ -49,7 +69,7 @@ section h2 {
 .form-element label select,
 .form-element label input {
   width: 80%;
-  background-color: #FFF;
+  background-color: #fff;
   font-family: 'Raleway', sans-serif;
   border: 3px solid #000;
 }
@@ -57,20 +77,37 @@ section h2 {
 .form-element label input {
   border-radius: 4px;
   padding: 2px;
+  font-weight: 700;
 }
 
-button[type="submit"] {
+/* button[type='submit'] {
   width: 100%;
   display: block;
   margin: 20px auto 0;
   padding: 15px;
   border: 4px solid #000;
-  background-color: #FFF;
+  background-color: #fff;
   font-weight: 700;
   font-family: 'Raleway', sans-serif;
   font-size: 18px;
   cursor: pointer;
   border-radius: 4px;
+} */
+
+button[type='submit'] {
+  width: 68%;
+  margin: 0px 0px 10px 0px;
+  padding: 15px;
+  border: 4px solid #000;
+  background-color: #fff;
+  font-weight: 700;
+  font-family: 'Raleway', sans-serif;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button[type='submit']:disabled {
+  color: lightgray;
 }
 
 .label {
@@ -82,14 +119,23 @@ button[type="submit"] {
 }
 
 @media (min-width: 700px) {
-  .form-element label input,
+  /* .form-element label input,
   .form-element label select {
     width: 60%;
+  } */
+
+  .form-element label input,
+  .form-element label select {
+    width: 80%;
+    font-weight: 700;
   }
 
-  .label {
+  /* .label {
     display: inline-block;
     margin-right: 10px;
+  } */
+  .label {
+    display: inline-block;
   }
 }
 
@@ -102,7 +148,7 @@ button[type="submit"] {
 }
 
 .cart .status strong {
-  color: #FF0080;
+  color: #ff0080;
 }
 
 .clear-cart,
@@ -112,7 +158,7 @@ button[type="submit"] {
   margin: 20px 0;
   padding: 5px 10px;
   border: 4px solid #000;
-  background-color: #FFF;
+  background-color: #fff;
   font-weight: 700;
   font-family: 'Raleway', sans-serif;
   font-size: 18px;
