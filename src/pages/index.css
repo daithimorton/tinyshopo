@@ -168,6 +168,10 @@ button[type='submit']:disabled strong {
   position: relative;
 }
 
+.clear-cart:disabled {
+  color: lightgray;
+}
+
 .status {
   text-align: center;
 }

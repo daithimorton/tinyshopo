@@ -34,7 +34,11 @@ class Cart extends React.Component {
   openStripeCheckout(event) {
     event.preventDefault();
 
-    this.setState({ paymentError: false });
+    this.setState({
+      paymentError: false,
+      purchaseComplete: false,
+      processing: false
+    });
     const cartItems = this.props.cart.items;
     const totals = calculateProductTotals(cartItems);
 
@@ -102,11 +106,6 @@ class Cart extends React.Component {
       }</strong> for a total of <strong>€${totals.price}</strong>. Sweet!`;
     }
 
-    // thank the user when purchase complete
-    if (this.state.purchaseComplete && this.props.cart.items.length === 0) {
-      status = 'Purchase complete. Thank you!';
-    }
-
     return { __html: status };
   }
 
@@ -149,10 +148,15 @@ class Cart extends React.Component {
           className="clear-cart"
           name="clear-cart"
           onClick={this.props.removeAllFromCart}
-          disabled={this.state.processing}
+          disabled={this.state.processing || this.props.cart.items.length === 0}
         >
           Clear All
         </button>
+        {this.state.purchaseComplete && (
+          <h3 className="status">
+            <strong>Purchase complete. Thank you!</strong>
+          </h3>
+        )}
         {this.state.paymentError && (
           <h3 className="status">
             <strong>
