@@ -39,7 +39,7 @@ exports.handler = (event, context, callback) => {
     email
   };
 
-  // create a customer
+  console.log('creating customer...');
   stripe.customers
     .create({
       email,
@@ -48,12 +48,13 @@ exports.handler = (event, context, callback) => {
       // source: 'tok_visa' // used during testing with frontend not available
     })
     .then(customer => {
-      // create an order and attach the customer
+      console.log('creating order for customer...');
       stripe.orders
         .create(order)
         .then(orderData => {
           const { id } = orderData;
 
+          console.log('paying for order...');
           // pay the order and use the source token (card details)
           return stripe.orders.pay(id, {
             customer: customer.id,
@@ -63,6 +64,7 @@ exports.handler = (event, context, callback) => {
           });
         })
         .then(() => {
+          console.log('order payment successful');
           const response = {
             statusCode: 200,
             body: JSON.stringify({
@@ -72,6 +74,7 @@ exports.handler = (event, context, callback) => {
           callback(null, response);
         })
         .catch(() => {
+          console.log('order creation/payment failed');
           const response = {
             statusCode: 500,
             body: JSON.stringify({
@@ -82,6 +85,7 @@ exports.handler = (event, context, callback) => {
         });
     })
     .catch(() => {
+      console.log('creating customer failed');
       const response = {
         statusCode: 500,
         body: JSON.stringify({
