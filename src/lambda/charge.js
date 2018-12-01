@@ -55,22 +55,12 @@ exports.handler = (event, context, callback) => {
           const { id } = orderData;
 
           // pay the order and use the source token (card details)
-          return stripe.orders
-            .pay(id, {
-              customer: customer.id,
-              metadata: {
-                customer: customer.id
-              }
-            })
-            .catch(() => {
-              const response = {
-                statusCode: 500,
-                body: JSON.stringify({
-                  message: 'order payment failed'
-                })
-              };
-              callback(null, response);
-            });
+          return stripe.orders.pay(id, {
+            customer: customer.id,
+            metadata: {
+              customer: customer.id
+            }
+          });
         })
         .then(() => {
           const response = {
