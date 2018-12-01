@@ -1,4 +1,4 @@
-require('dotenv').config({ path: '.env' });
+require('dotenv').config({ path: '.env.backend' });
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 exports.handler = (event, context, callback) => {
@@ -39,8 +39,6 @@ exports.handler = (event, context, callback) => {
     email
   };
 
-  console.log(token);
-
   // create a customer
   stripe.customers
     .create({
@@ -64,45 +62,41 @@ exports.handler = (event, context, callback) => {
                 customer: customer.id
               }
             })
-            .catch(error => {
-              console.log(error);
+            .catch(() => {
+              console.log('error in stripe.orders.pay()');
               const response = {
                 statusCode: 500,
                 body: JSON.stringify({
-                  message: 'order payment failed',
-                  error
+                  message: 'order payment failed'
                 })
               };
               callback(null, response);
             });
         })
-        .then(result => {
+        .then(() => {
           const response = {
             statusCode: 200,
             body: JSON.stringify({
-              message: 'order creation success',
-              result
+              message: 'order creation success'
             })
           };
           callback(null, response);
         })
-        .catch(error => {
+        .catch(() => {
           const response = {
             statusCode: 500,
             body: JSON.stringify({
-              message: 'order creation failed',
-              error
+              message: 'order creation failed'
             })
           };
           callback(null, response);
         });
     })
-    .catch(error => {
+    .catch(() => {
       const response = {
         statusCode: 500,
         body: JSON.stringify({
-          message: 'creating customer failed',
-          error
+          message: 'creating customer failed'
         })
       };
       callback(null, response);

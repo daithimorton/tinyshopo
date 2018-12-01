@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config({ path: '.env.backend' });
 
 var proxy = require('http-proxy-middleware');
 

@@ -26,7 +26,7 @@ class Cart extends React.Component {
 
   componentDidMount() {
     stripeHandler = window.StripeCheckout.configure({
-      key: 'pk_test_AuNpDt9SitHlyrmEchqAlPjy',
+      key: process.env.STRIPE_PUBLIC_KEY,
       locale: 'auto'
     });
   }
