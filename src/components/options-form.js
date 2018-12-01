@@ -7,7 +7,7 @@ class OptionsForm extends React.Component {
 
     this.state = {
       quantity: 1,
-      price: this.props.product.metadata.price,
+      price: Number(this.props.product.metadata.price),
       error: ''
     };
 
@@ -27,7 +27,7 @@ class OptionsForm extends React.Component {
 
     this.setState({
       quantity,
-      price: quantity * this.props.product.metadata.price,
+      price: quantity * Number(this.props.product.metadata.price),
       error
     });
   }
@@ -52,13 +52,11 @@ class OptionsForm extends React.Component {
 
     const product = {
       id: uuid(),
-      // contentfulId: this.props.product.id,
-      // productId: this.props.product.productId,
+      sku: this.props.product.sku,
       productId: this.props.product.id,
       name: this.props.product.name,
       quantity: this.state.quantity,
       price: this.state.price,
-      // image: this.props.product.image
       image: this.props.product.images[0]
     };
 

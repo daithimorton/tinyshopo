@@ -13,6 +13,7 @@ class IndexPage extends React.Component {
 
     this.state = {
       stripeProducts: props.data.allStripeProduct.edges,
+      stripeSkus: props.data.allStripeSku.edges,
       cart: {
         id: '',
         date: '',
@@ -26,7 +27,16 @@ class IndexPage extends React.Component {
   }
 
   handleFormSubmit(product) {
-    const items = [...this.state.cart.items, product];
+    let items = this.state.cart.items;
+    const cartItem = items.find(item => item.sku === product.sku);
+    if (cartItem) {
+      // product is already in the cart so update quantity
+      cartItem.quantity += product.quantity;
+      cartItem.price += product.price;
+    } else {
+      // product is not in the cart so add it
+      items = [...this.state.cart.items, product];
+    }
 
     this.setState({
       cart: {
@@ -63,6 +73,13 @@ class IndexPage extends React.Component {
     });
   }
 
+  getSkuForProduct = product => {
+    const sku = this.state.stripeSkus.filter(
+      sku => sku.node.product.id === product.node.id
+    );
+    return sku[0].node;
+  };
+
   render() {
     return (
       <Layout>
@@ -75,10 +92,17 @@ class IndexPage extends React.Component {
           <h2>Products</h2>
           <div className="product-container">
             {this.state.stripeProducts.map((product, index) => {
+              const productSku = this.getSkuForProduct(product);
+              const productData = {
+                ...product.node,
+                sku: productSku.id,
+                currency: productSku.currency
+              };
+
               return (
                 <OptionsFormContainer
                   key={index}
-                  product={product.node}
+                  product={productData}
                   onFormSubmit={this.handleFormSubmit}
                 />
               );
@@ -110,6 +134,18 @@ export const query = graphql`
           images
           metadata {
             price
+          }
+        }
+      }
+    }
+    allStripeSku {
+      edges {
+        node {
+          id
+          currency
+          price
+          product {
+            id
           }
         }
       }

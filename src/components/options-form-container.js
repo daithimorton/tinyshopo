@@ -4,17 +4,10 @@ import OptionsForm from './options-form';
 class OptionsFormContainer extends React.Component {
   constructor(props) {
     super(props);
-
-    // const defaultImage = props.product.image;
     const defaultImage = props.product.images[0];
 
-    // this.state = {
-    //   url: defaultImage.file.url,
-    //   alt: defaultImage.description
-    // };
     this.state = {
       url: defaultImage
-      // alt: defaultImage.description
     };
   }
 

@@ -7,16 +7,16 @@ export function convertCentsToWholeDollars(cents) {
 }
 
 export function calculateProductTotals(items) {
-  const totalAmount = items
+  const totalQuantity = items
     .map(item => item.quantity)
-    .reduce((total, currentAmount) => total + currentAmount);
+    .reduce((total, currentQuantity) => total + currentQuantity);
 
   const totalPrice = items
     .map(item => item.price)
     .reduce((total, currentPrice) => Number(total) + Number(currentPrice));
 
   return {
-    quantity: totalAmount,
+    quantity: totalQuantity,
     price: totalPrice
   };
 }

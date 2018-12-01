@@ -46,9 +46,8 @@ class Cart extends React.Component {
       name: 'Tiny Shopo',
       image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
       description: `${totals.quantity} item${pluralize(totals.quantity)}`,
-      zipCode: true,
-      billingAddress: true,
       shippingAddress: true,
+      billingAddress: true,
       amount: convertWholeDollarsToCents(totals.price),
       currency: 'eur',
       token: (token, args) => {
@@ -59,10 +58,7 @@ class Cart extends React.Component {
             token,
             args,
             cart: this.props.cart,
-            charge: {
-              amount: totals.price,
-              currency: 'eur'
-            }
+            currency: 'eur'
           })
         })
           .then(response => {
@@ -115,13 +111,12 @@ class Cart extends React.Component {
 
   renderCartItems() {
     return this.props.cart.items.map(item => {
-      const image = item.image;
       return (
         <li className="cart-item" key={item.id}>
           <div className="cancel" onClick={e => this.removeFromCart(item.id)}>
             remove
           </div>
-          <img src={image} alt={image.description} />
+          <img src={item.image} alt={item.image.description} />
           <p className="description">
             <strong>{item.quantity}</strong> x {item.name}
           </p>
