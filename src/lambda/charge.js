@@ -63,7 +63,6 @@ exports.handler = (event, context, callback) => {
               }
             })
             .catch(() => {
-              console.log('error in stripe.orders.pay()');
               const response = {
                 statusCode: 500,
                 body: JSON.stringify({
