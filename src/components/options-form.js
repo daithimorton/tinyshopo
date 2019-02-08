@@ -61,13 +61,6 @@ class OptionsForm extends React.Component {
     };
 
     this.props.onFormSubmit(product);
-
-    // Reset form values
-    this.setState({
-      quantity: 0,
-      price: 0,
-      error: ''
-    });
   }
 
   render() {
@@ -90,7 +83,7 @@ class OptionsForm extends React.Component {
           className="buy-button"
           type="submit"
           name="submit"
-          disabled={this.state.quantity === 0 ? true : false}
+          // disabled={this.state.quantity === 0 ? true : false}
           dangerouslySetInnerHTML={{
             __html: `Add <strong>${
               isNaN(this.state.quantity) ? '__' : this.state.quantity
