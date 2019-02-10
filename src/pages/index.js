@@ -3,6 +3,7 @@ import { graphql } from 'gatsby';
 import uuid from 'uuid/v4';
 import moment from 'moment';
 import './index.css';
+import 'react-image-gallery/styles/css/image-gallery.css';
 import Layout from '../components/layout';
 import OptionsFormContainer from '../components/options-form-container';
 import Cart from '../components/cart';
