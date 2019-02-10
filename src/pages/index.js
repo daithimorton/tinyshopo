@@ -84,7 +84,7 @@ class IndexPage extends React.Component {
     return (
       <Layout>
         <h4 className="intro">
-          Free shipping worldwide! Please allow up to 50 days for delivery,
+          Free shipping worldwide! Please allow up to 60 days for delivery,
           Thank you.
         </h4>
 
