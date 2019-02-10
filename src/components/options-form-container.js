@@ -26,7 +26,7 @@ class OptionsFormContainer extends React.Component {
           <ImageGallery
             items={images}
             showThumbnails={false}
-            // showFullscreenButton={false}
+            showFullscreenButton={false}
             showPlayButton={false}
           />
         </div>
