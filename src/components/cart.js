@@ -5,6 +5,7 @@ import {
   pluralize,
   calculateProductTotals
 } from '../helpers.js';
+import ReactGA from 'react-ga';
 
 let stripeHandler = undefined;
 
@@ -32,6 +33,11 @@ class Cart extends React.Component {
 
   openStripeCheckout(event) {
     event.preventDefault();
+
+    ReactGA.event({
+      category: 'Orders',
+      action: 'User clicked the buy now button.'
+    });
 
     this.setState({
       paymentError: false,
@@ -69,6 +75,11 @@ class Cart extends React.Component {
                 paymentError: false
               });
               this.props.removeAllFromCart();
+
+              ReactGA.event({
+                category: 'Orders',
+                action: 'User placed an order.'
+              });
             } else if (status === 500) {
               this.setState({
                 processing: false,

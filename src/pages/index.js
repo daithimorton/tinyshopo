@@ -7,7 +7,9 @@ import 'react-image-gallery/styles/css/image-gallery.css';
 import Layout from '../components/layout';
 import OptionsFormContainer from '../components/options-form-container';
 import Cart from '../components/cart';
+import ReactGA from 'react-ga';
 
+ReactGA.initialize('UA-63312977-14');
 class IndexPage extends React.Component {
   constructor(props) {
     super(props);
