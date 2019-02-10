@@ -10,12 +10,12 @@ module.exports = {
     `gatsby-plugin-favicon`,
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-stripe-checkout`,
-    {
-      resolve: `gatsby-plugin-google-analytics`,
-      options: {
-        trackingId: 'UA-63312977-14'
-      }
-    },
+    // {
+    //   resolve: `gatsby-plugin-google-analytics`,
+    //   options: {
+    //     trackingId: 'UA-63312977-14'
+    //   }
+    // },
     {
       resolve: `gatsby-source-stripe`,
       options: {
