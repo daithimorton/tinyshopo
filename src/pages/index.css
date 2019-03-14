@@ -289,3 +289,7 @@ button[type='submit']:disabled strong {
     width: 30%;
   }
 }
+
+iframe.stripe_checkout_app {
+  z-index: 2147483647 !important;
+}
