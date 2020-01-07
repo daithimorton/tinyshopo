@@ -7,8 +7,6 @@ import {
 } from '../helpers.js';
 import ReactGA from 'react-ga';
 
-let stripeHandler = undefined;
-
 class Cart extends React.Component {
   constructor(props) {
     super(props);
@@ -23,10 +21,11 @@ class Cart extends React.Component {
     this.renderCartItems = this.renderCartItems.bind(this);
     this.removeFromCart = this.removeFromCart.bind(this);
     this.openStripeCheckout = this.openStripeCheckout.bind(this);
+    this.stripeHandler = undefined;
   }
 
   componentDidMount() {
-    stripeHandler = window.StripeCheckout.configure({
+    this.stripeHandler = window.StripeCheckout.configure({
       key: process.env.GATSBY_STRIPE_PUBLIC_KEY
     });
   }
@@ -47,7 +46,7 @@ class Cart extends React.Component {
     const cartItems = this.props.cart.items;
     const totals = calculateProductTotals(cartItems);
 
-    stripeHandler.open({
+    this.stripeHandler.open({
       name: 'Tiny Shopo',
       image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
       description: `${totals.quantity} item${pluralize(totals.quantity)}`,
