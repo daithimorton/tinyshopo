@@ -8,29 +8,19 @@ import {
 import ReactGA from 'react-ga';
 
 class Cart extends React.Component {
-  constructor(props) {
-    super(props);
+  state = {
+    processing: false,
+    purchaseComplete: false,
+    paymentError: false
+  };
 
-    this.state = {
-      processing: false,
-      purchaseComplete: false,
-      paymentError: false
-    };
-
-    this.renderStatus = this.renderStatus.bind(this);
-    this.renderCartItems = this.renderCartItems.bind(this);
-    this.removeFromCart = this.removeFromCart.bind(this);
-    this.openStripeCheckout = this.openStripeCheckout.bind(this);
-    this.stripeHandler = undefined;
-  }
-
-  componentDidMount() {
+  componentDidMount = () => {
     this.stripeHandler = window.StripeCheckout.configure({
       key: process.env.GATSBY_STRIPE_PUBLIC_KEY
     });
   }
 
-  openStripeCheckout(event) {
+  openStripeCheckout = (event) => {
     event.preventDefault();
 
     ReactGA.event({
@@ -100,7 +90,7 @@ class Cart extends React.Component {
     });
   }
 
-  renderStatus() {
+  renderStatus = () => {
     const cartItems = this.props.cart.items;
     let status = 'Nothing in your cart yet :(.';
 
@@ -108,17 +98,17 @@ class Cart extends React.Component {
       const totals = calculateProductTotals(cartItems);
       status = `It looks like you're buying <strong>${
         totals.quantity
-      }</strong> for a total of <strong>€${totals.price}</strong>. Sweet!`;
+        }</strong> for a total of <strong>€${totals.price}</strong>. Sweet!`;
     }
 
     return { __html: status };
   }
 
-  removeFromCart(id) {
+  removeFromCart = (id) => {
     this.props.removeFromCart(id);
   }
 
-  renderCartItems() {
+  renderCartItems = () => {
     return this.props.cart.items.map(item => {
       return (
         <li className="cart-item" key={item.id}>
@@ -139,7 +129,7 @@ class Cart extends React.Component {
 
   render() {
     return (
-      <div>
+      <>
         <button
           className="buy"
           name="buy"
@@ -171,15 +161,15 @@ class Cart extends React.Component {
         {this.state.processing ? (
           <h3 className="status">Please wait processing payment...</h3>
         ) : (
-          <React.Fragment>
-            <h3
-              className="status"
-              dangerouslySetInnerHTML={this.renderStatus()}
-            />
-            <ul className="cart-items">{this.renderCartItems()}</ul>
-          </React.Fragment>
-        )}
-      </div>
+            <>
+              <h3
+                className="status"
+                dangerouslySetInnerHTML={this.renderStatus()}
+              />
+              <ul className="cart-items">{this.renderCartItems()}</ul>
+            </>
+          )}
+      </>
     );
   }
 }
