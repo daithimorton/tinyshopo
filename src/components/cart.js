@@ -1,126 +1,55 @@
 import React from 'react';
 
 import {
-  convertWholeDollarsToCents,
-  pluralize,
-  calculateProductTotals
+  calculateProductTotals,
+  convertCentsToEuros
 } from '../helpers.js';
 import ReactGA from 'react-ga';
 
 class Cart extends React.Component {
   state = {
     processing: false,
-    purchaseComplete: false,
     paymentError: false
   };
 
   componentDidMount = () => {
-    this.stripeHandler = window.StripeCheckout.configure({
-      key: process.env.GATSBY_STRIPE_PUBLIC_KEY
-    });
+    this.stripeHandler = window.Stripe(process.env.GATSBY_STRIPE_PUBLIC_KEY);
   }
 
-  openStripeCheckout = (event) => {
-    event.preventDefault();
+  redirectToCheckout = async (event) => {
+    event.preventDefault()
 
     ReactGA.event({
       category: 'Orders',
       action: 'User clicked the buy now button.'
     });
 
-    this.setState({
-      paymentError: false,
-      purchaseComplete: false,
-      processing: false
-    });
-    const cartItems = this.props.cart.items;
-    const totals = calculateProductTotals(cartItems);
-
-    this.stripeHandler.open({
-      name: 'Tiny Shopo',
-      image: 'https://stripe.com/img/documentation/checkout/marketplace.png',
-      description: `${totals.quantity} item${pluralize(totals.quantity)}`,
-      shippingAddress: true,
-      billingAddress: true,
-      amount: convertWholeDollarsToCents(totals.price),
-      currency: 'eur',
-      token: (token, args) => {
-        this.setState({ processing: true });
-        fetch('/.netlify/functions/charge', {
-          method: 'POST',
-          body: JSON.stringify({
-            token,
-            args,
-            cart: this.props.cart,
-            currency: 'eur'
-          })
-        })
-          .then(response => {
-            const { status } = response;
-            if (status === 200) {
-              this.setState({
-                processing: false,
-                purchaseComplete: true,
-                paymentError: false
-              });
-              this.props.removeAllFromCart();
-
-              ReactGA.event({
-                category: 'Orders',
-                action: 'User placed an order.'
-              });
-            } else if (status === 500) {
-              this.setState({
-                processing: false,
-                purchaseComplete: false,
-                paymentError: true
-              });
-            }
-            return response.json();
-          })
-          .catch(error => {
-            this.setState({
-              processing: false,
-              purchaseComplete: false,
-              paymentError: true
-            });
-            console.log('Fetch failed:' + error);
-          });
-      }
-    });
-  }
-
-  renderStatus = () => {
-    const cartItems = this.props.cart.items;
-    let status = 'Nothing in your cart yet :(.';
-
-    if (cartItems.length) {
-      const totals = calculateProductTotals(cartItems);
-      status = `It looks like you're buying <strong>${
-        totals.quantity
-        }</strong> for a total of <strong>€${totals.price}</strong>. Sweet!`;
+    const items = this.props.cart.items.map(item => { return { sku: item.sku, quantity: 1 } });
+    const { error } = await this.stripeHandler.redirectToCheckout({
+      items,
+      successUrl: `http://localhost:8000/`,
+      cancelUrl: `http://localhost:8000/`
+      // billingAddressCollection: 'required'
+    })
+    if (error) {
+      console.warn("Error:", error)
+      this.setState({ paymentError: true })
     }
-
-    return { __html: status };
-  }
-
-  removeFromCart = (id) => {
-    this.props.removeFromCart(id);
   }
 
   renderCartItems = () => {
-    return this.props.cart.items.map(item => {
+    return this.props.cart.items.map((item, index) => {
       return (
-        <li className="cart-item" key={item.id}>
-          <div className="cancel" onClick={e => this.removeFromCart(item.id)}>
+        <li className="cart-item" key={index}>
+          <div className="cancel" onClick={() => this.props.removeFromCart(item.sku)}>
             remove
           </div>
-          <img src={item.image} alt={item.image.description} />
+          <img src={item.image} alt={item.name} />
           <p className="description">
             <strong>{item.quantity}</strong> x {item.name}
           </p>
           <p className="price">
-            <strong>€{item.price}</strong>
+            <strong>€{convertCentsToEuros(item.price)}</strong>
           </p>
         </li>
       );
@@ -128,48 +57,40 @@ class Cart extends React.Component {
   }
 
   render() {
+    const { cart } = this.props;
+    const { items } = cart;
+    const itemsExist = items.length > 0;
+    const totals = calculateProductTotals(items);
+
     return (
-      <>
+      <div className="cart-container">
+        {itemsExist &&
+          <button
+            className="clear-cart"
+            name="clear-cart"
+            onClick={this.props.removeAllFromCart}
+            disabled={!itemsExist}
+          >
+            Remove All
+        </button>}
+        
+        <ul className="cart-items">{this.renderCartItems()}</ul>
+
+        <div className="status">
+          {itemsExist && (<>Buying <strong>{totals.quantity}</strong> for a total of <strong>€{convertCentsToEuros(totals.price)}</strong></>)}
+        </div>
+
         <button
-          className="buy"
-          name="buy"
-          onClick={e => this.openStripeCheckout(e)}
-          disabled={this.state.processing || this.props.cart.items.length === 0}
+          className="checkout"
+          name="checkout"
+          onClick={event => {
+            this.redirectToCheckout(event)
+          }}
+          disabled={!itemsExist}
         >
-          Buy Now!
+          Checkout
         </button>
-        <button
-          className="clear-cart"
-          name="clear-cart"
-          onClick={this.props.removeAllFromCart}
-          disabled={this.state.processing || this.props.cart.items.length === 0}
-        >
-          Clear All
-        </button>
-        {this.state.purchaseComplete && (
-          <h3 className="status">
-            <strong>Purchase complete. Thank you!</strong>
-          </h3>
-        )}
-        {this.state.paymentError && (
-          <h3 className="status">
-            <strong>
-              There was an error processing your payment, please try again.
-            </strong>
-          </h3>
-        )}
-        {this.state.processing ? (
-          <h3 className="status">Please wait processing payment...</h3>
-        ) : (
-            <>
-              <h3
-                className="status"
-                dangerouslySetInnerHTML={this.renderStatus()}
-              />
-              <ul className="cart-items">{this.renderCartItems()}</ul>
-            </>
-          )}
-      </>
+      </div>
     );
   }
 }

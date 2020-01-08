@@ -9,18 +9,20 @@ module.exports = {
   plugins: [
     `gatsby-plugin-favicon`,
     `gatsby-plugin-react-helmet`,
-    `gatsby-plugin-stripe-checkout`,
+    // `gatsby-plugin-stripe-checkout`,
     // {
     //   resolve: `gatsby-plugin-google-analytics`,
     //   options: {
     //     trackingId: 'UA-63312977-14'
     //   }
     // },
+    "gatsby-plugin-stripe",
     {
       resolve: `gatsby-source-stripe`,
       options: {
-        objects: ['Product', 'Sku'],
-        secretKey: process.env.STRIPE_SECRET_KEY
+        objects: ['Sku'],
+        secretKey: process.env.STRIPE_SECRET_KEY,
+        downloadFiles: true,
       }
     }
   ],

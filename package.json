@@ -1,13 +1,13 @@
 {
   "name": "tinyshopo",
   "description": "Tiny Shopo",
-  "version": "1.0.0",
-  "author": "Daithi @Beautifwhale",
+  "version": "1.0.0",  
   "dependencies": {
     "gatsby": "2.18.18",
     "gatsby-plugin-favicon": "3.1.6",
     "gatsby-plugin-google-analytics": "2.1.31",
     "gatsby-plugin-react-helmet": "3.1.18",
+    "gatsby-plugin-stripe": "^1.2.3",
     "gatsby-plugin-stripe-checkout": "^1.1.5",
     "gatsby-source-stripe": "3.0.5",
     "moment": "2.24.0",
@@ -18,13 +18,8 @@
     "react-image-gallery": "^1.0.3",
     "stripe": "7.15.0",
     "uuid": "3.3.3"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:damorton/tinyshopo.git"
-  },
-  "license": "MIT",
-  "main": "n/a",
+  },  
+  "license": "MIT",  
   "scripts": {
     "build": "gatsby build && npm run lambda:build",
     "develop": "gatsby develop -H 0.0.0.0",
