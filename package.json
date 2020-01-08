@@ -1,7 +1,7 @@
 {
   "name": "tinyshopo",
   "description": "Tiny Shopo",
-  "version": "1.0.0",  
+  "version": "1.0.0",
   "dependencies": {
     "gatsby": "2.18.18",
     "gatsby-plugin-favicon": "3.1.6",
@@ -18,8 +18,8 @@
     "react-image-gallery": "^1.0.3",
     "stripe": "7.15.0",
     "uuid": "3.3.3"
-  },  
-  "license": "MIT",  
+  },
+  "license": "MIT",
   "scripts": {
     "build": "gatsby build && npm run lambda:build",
     "develop": "gatsby develop -H 0.0.0.0",

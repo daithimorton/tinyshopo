@@ -3,8 +3,8 @@ import { graphql } from 'gatsby';
 import './index.css';
 import 'react-image-gallery/styles/css/image-gallery.css';
 import Layout from '../components/layout';
-import ProductCard from '../components/ProductCard';
-import Cart from '../components/Cart';
+import ProductCard from '../components/productCard';
+import Cart from '../components/cart';
 
 class IndexPage extends React.Component {
   state = {
