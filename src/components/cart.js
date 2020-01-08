@@ -26,8 +26,8 @@ class Cart extends React.Component {
     const items = this.props.cart.items.map(item => { return { sku: item.sku, quantity: 1 } });
     const { error } = await this.stripeHandler.redirectToCheckout({
       items,
-      successUrl: process.env.HOSTNAME,
-      cancelUrl: process.env.HOSTNAME
+      successUrl: process.env.GATSBY_HOSTNAME,
+      cancelUrl: process.env.GATSBY_HOSTNAME
       // billingAddressCollection: 'required'
     })
     if (error) {
