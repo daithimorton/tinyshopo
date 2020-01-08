@@ -27,7 +27,7 @@
     "dev": "concurrently --kill-others \"npm run develop\" \"npm run lambda:serve\"",
     "lambda:build": "netlify-lambda build src/lambda",
     "lambda:serve": "netlify-lambda serve src/lambda",
-    "clean": "rm -rf .cache node_modules"
+    "clean": "rm -rf .cache node_modules package-lock.json"
   },
   "devDependencies": {
     "concurrently": "^5.0.2",
